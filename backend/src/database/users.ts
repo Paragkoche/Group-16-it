@@ -1,5 +1,13 @@
-import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import {
+  BeforeInsert,
+  Column,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { genSalt, hash } from "bcrypt";
+import { Files } from "./files";
 
 @Entity()
 export class Users {
@@ -12,6 +20,9 @@ export class Users {
   @Column()
   password: string;
 
+  @OneToMany(() => Files, (f) => f.owner)
+  @JoinColumn()
+  myFiles: Files[];
   @BeforeInsert()
   async hasPass() {
     let pass = this.password;
