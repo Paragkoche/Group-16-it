@@ -13,7 +13,7 @@ export const authReq = async (
   nextFun: NextFunction
 ) => {
   try {
-    const token = req.cookies("token");
+    const token = req.cookies.token;
     if (!token || token == "")
       return res.status(404).json({
         message: "UnAuth",

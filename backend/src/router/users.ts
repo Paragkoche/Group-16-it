@@ -2,10 +2,11 @@ import { userRepo } from "@/database/repo";
 import { createToken } from "@/helper/jwt";
 import { verifyPassword } from "@/helper/password";
 import { CreateAndLoginUserBody } from "@/helper/schema";
+import { AuthRequest, authReq } from "@/middleware/auth.middleware";
 import { Router } from "express";
 
 const router = Router();
-router.post("/createUser", (req, res) => {
+router.post("/createUser", async (req, res) => {
   try {
     const data = CreateAndLoginUserBody.safeParse(req.body);
     if (data.error) {
@@ -14,8 +15,8 @@ router.post("/createUser", (req, res) => {
     const newUser = userRepo.create({
       ...data.data,
     });
-    const sUser = userRepo.save(newUser);
-
+    const sUser = await userRepo.save(newUser);
+    res.cookie("token", createToken({ id: sUser.id }));
     return res.json(sUser);
   } catch (e) {
     return res.status(500).json(e);
@@ -46,6 +47,16 @@ router.post("/LoginUsers", async (req, res) => {
     return res.json(usersData);
   } catch (e) {
     return res.status(500).json(e);
+  }
+});
+router.delete("/delete-users", authReq, async (req: AuthRequest, res) => {
+  try {
+    await userRepo.delete({ id: req.userData.id });
+    return res.send("Done");
+  } catch (e) {
+    return res.status(500).json({
+      message: e,
+    });
   }
 });
 export default router;

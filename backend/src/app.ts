@@ -1,6 +1,10 @@
 import express from "express";
-
+import UsersPath from "@/router/users";
+import FilesPath from "@/router/file";
+import cookieParser from "cookie-parser";
 const app = express();
 app.use(express.json());
-
+app.use(cookieParser());
+app.use("/users", UsersPath);
+app.use("/files", FilesPath);
 export default app;

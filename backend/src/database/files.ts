@@ -1,4 +1,5 @@
 import {
+  BeforeInsert,
   Column,
   Entity,
   JoinColumn,
@@ -8,6 +9,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Users } from "./users";
+import crypto from "crypto";
 
 @Entity()
 export class Files {
@@ -36,4 +38,14 @@ export class Files {
   @ManyToOne(() => Users, (usr) => usr.myFiles)
   @JoinColumn()
   owner: Users;
+
+  @BeforeInsert()
+  async calculateHash() {
+    const hash = crypto.createHash("sha512");
+    // console.log(this);
+
+    const data = Date.now() + this.fileUrl + this.owner.id;
+    hash.update(data);
+    this.hash = hash.digest("hex");
+  }
 }
