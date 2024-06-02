@@ -31,13 +31,15 @@ const Uploadfiles = () => {
     });
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/file/upload-file`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${data}`, // Add auth token
-        },
-        body: formData,
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/files/upload-file`,
+        {
+          method: "POST",
+
+          body: formData,
+          credentials: "include",
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to upload files");
@@ -57,28 +59,40 @@ const Uploadfiles = () => {
     <main className="text-center h-screen flex flex-col justify-center items-center">
       <Box>
         <Button variant="contained" component="label">
-          <input onChange={(e) => setFiles(e.target.files)} type="file" multiple />
+          <input
+            onChange={(e) => setFiles(e.target.files)}
+            type="file"
+            multiple
+          />
           {files && (
-          <Box mt={2}>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleFileUpload}
-              disabled={uploading}
-            >
-              {uploading ? "Uploading..." : "Upload"}
-            </Button>
-          </Box>
-        )}
+            <Box mt={2}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleFileUpload}
+                disabled={uploading}
+              >
+                {uploading ? "Uploading..." : "Upload"}
+              </Button>
+            </Box>
+          )}
         </Button>
-        
+
         {uploading && (
           <Box mt={2} width="100%">
             <LinearProgress />
           </Box>
         )}
-        {error && <Alert severity="error" style={{ marginTop: 16 }}>{error}</Alert>}
-        {success && <Alert severity="success" style={{ marginTop: 16 }}>{success}</Alert>}
+        {error && (
+          <Alert severity="error" style={{ marginTop: 16 }}>
+            {error}
+          </Alert>
+        )}
+        {success && (
+          <Alert severity="success" style={{ marginTop: 16 }}>
+            {success}
+          </Alert>
+        )}
       </Box>
     </main>
   );
