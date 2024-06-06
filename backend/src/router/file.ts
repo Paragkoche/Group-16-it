@@ -4,7 +4,6 @@ import { Router } from "express";
 import multer from "multer";
 import fs from "fs";
 import { randomUUID } from "crypto";
-import path from "path";
 const router = Router();
 
 // Define multer storage options
