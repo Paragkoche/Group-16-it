@@ -38,7 +38,7 @@ const Dashboard = () => {
 
   return (
     <div className="bg-gray-200 flex flex-col gap-4 h-screen items-center justify-center">
-      {files.map((file: { prvHash: string; fileUrl: string; id: string }) => (
+      {(files.length > 0)?files.map((file: { prvHash: string; fileUrl: string; id: string }) => (
         <a
           className="rounded-sm w-1/2 grid grid-cols-12 bg-white shadow p-3 gap-2 items-center hover:shadow-lg transition delay-150 duration-300 ease-in-out hover:scale-105 transform"
           href="#"
@@ -57,7 +57,7 @@ const Dashboard = () => {
             </p>
           </div>
         </a>
-      ))}
+      )):<h1>No File Uploaded Yet :)</h1>}
     </div>
   );
 };
