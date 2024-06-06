@@ -79,27 +79,4 @@ router.get("/all-file", authReq, async (req: AuthRequest, res) => {
   }
 });
 
-router.get("/file-data", authReq, async (req: AuthRequest, res) => {
-  try {
-    const { fileUrl } = req.body;
-    const filePath = path.join("static", req.userData.id, fileUrl);
-
-    // Check if the file exists
-    return fs.access(filePath, fs.constants.F_OK, (err) => {
-      if (err) {
-        console.error("File not found:", err);
-        return res.status(404).send("File not found");
-      }
-
-      // Stream the file to the client
-      const fileStream = fs.createReadStream(filePath);
-      return fileStream.pipe(res);
-    });
-  } catch (e) {
-    return res.status(500).json({
-      message: e,
-    });
-  }
-});
-
 export default router;
