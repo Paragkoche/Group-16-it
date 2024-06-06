@@ -1,8 +1,9 @@
-import { userRepo } from "@/database/repo";
+import { fileRepo, userRepo } from "@/database/repo";
 import { createToken } from "@/helper/jwt";
 import { verifyPassword } from "@/helper/password";
 import { CreateAndLoginUserBody } from "@/helper/schema";
 import { AuthRequest, authReq } from "@/middleware/auth.middleware";
+import { deleteFolderRecursive } from "@/utl/file";
 import { Router } from "express";
 
 const router = Router();
@@ -51,6 +52,14 @@ router.post("/LoginUsers", async (req, res) => {
 });
 router.delete("/delete-users", authReq, async (req: AuthRequest, res) => {
   try {
+    const userId = req.userData.id;
+
+    // Fetch the user's files from the database
+    // const userFiles = await fileRepo.find({ where: { owner: {id:userId} } });
+
+    // Delete the files from the database
+    await fileRepo.delete({ owner: { id: userId } });
+    deleteFolderRecursive(`./static/${userId}`);
     await userRepo.delete({ id: req.userData.id });
     return res.send("Done");
   } catch (e) {
