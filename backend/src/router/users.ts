@@ -55,7 +55,17 @@ router.delete("/delete-users", authReq, async (req: AuthRequest, res) => {
     const userId = req.userData.id;
 
     // Fetch the user's files from the database
-    // const userFiles = await fileRepo.find({ where: { owner: {id:userId} } });
+    const userFiles = await fileRepo.find({ where: { owner: { id: userId } } });
+    if (userFiles.length > 0) {
+      // Nullify the owner field to break the relationship
+      userFiles.map(async (v) => {
+        await fileRepo.createQueryBuilder()
+          .update(v)
+          .set({ owner: undefined })
+          .where("owner = :userId", { userId })
+          .execute();
+      })
+    }
 
     // Delete the files from the database
     await fileRepo.delete({ owner: { id: userId } });
