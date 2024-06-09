@@ -125,7 +125,7 @@ router.post("/shareWith", authReq, async (req: AuthRequest, res) => {
   }
 });
 
-router.post("/getShareFile/:id", authReq, async (req: AuthRequest, res) => {
+router.get("/getShareFile/:id", authReq, async (req: AuthRequest, res) => {
   try {
     const fileId = req.params.id;
     const fileData = await fileRepo.findOne({
