@@ -59,12 +59,13 @@ router.delete("/delete-users", authReq, async (req: AuthRequest, res) => {
     if (userFiles.length > 0) {
       // Nullify the owner field to break the relationship
       userFiles.map(async (v) => {
-        await fileRepo.createQueryBuilder()
+        await fileRepo
+          .createQueryBuilder()
           .update(v)
           .set({ owner: undefined })
           .where("owner = :userId", { userId })
           .execute();
-      })
+      });
     }
 
     // Delete the files from the database
@@ -77,5 +78,9 @@ router.delete("/delete-users", authReq, async (req: AuthRequest, res) => {
       message: e,
     });
   }
+});
+router.get("/ref-token", authReq, async (req: AuthRequest, res) => {
+  res.cookie("token", createToken({ id: req.userData.id }));
+  return res.json(req.userData);
 });
 export default router;
