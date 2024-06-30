@@ -5,6 +5,8 @@ import { CreateAndLoginUserBody } from "@/helper/schema";
 import { AuthRequest, authReq } from "@/middleware/auth.middleware";
 import { deleteFolderRecursive } from "@/utl/file";
 import { Router } from "express";
+import { Not } from "typeorm";
+// import { Not } from "typeorm";
 
 const router = Router();
 router.post("/createUser", async (req, res) => {
@@ -83,4 +85,22 @@ router.get("/ref-token", authReq, async (req: AuthRequest, res) => {
   res.cookie("token", createToken({ id: req.userData.id }));
   return res.json(req.userData);
 });
+router.post("/log-out", authReq, async (req: AuthRequest, res) => {
+  res.clearCookie("token");
+  return res.send("OK");
+});
+router.get("/all-users", authReq, async (req: AuthRequest, res) => {
+  return res.json({
+    data: await userRepo.find({
+      where: {
+        id: Not(req.userData.id),
+      },
+      select: {
+        id: true,
+        email: true,
+      },
+    }),
+  });
+});
+
 export default router;

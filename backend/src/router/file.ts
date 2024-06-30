@@ -88,37 +88,36 @@ router.post("/shareWith", authReq, async (req: AuthRequest, res) => {
     const file = await fileRepo.findOne({ where: { id: data.data.fileId } });
     if (!file) {
       return res.status(405).json({
-        message: "File not found"
-      })
+        message: "File not found",
+      });
     }
 
     file.mode = data.data.mode;
     if (data.data.mode == "public") {
-      let f = await fileRepo.save(file)
-      return f;
+      let f = await fileRepo.save(file);
+      return res.json(f);
     }
     let usersArray = [];
     for (let v of data.data.shareWithUserId) {
       const user = await userRepo.findOne({
         where: {
-          id: v.id
-        }
+          id: v.id,
+        },
       });
       if (!user) {
         return res.status(404).json({
-          message: "User not found id : " + v.id
-        })
+          message: "User not found id : " + v.id,
+        });
       }
       usersArray.push(user);
     }
     file.shareWith = usersArray;
-    const updateFileData = await fileRepo.save(file)
+    const updateFileData = await fileRepo.save(file);
 
     return res.json({
-      data: updateFileData
-    })
-  }
-  catch (e) {
+      data: updateFileData,
+    });
+  } catch (e) {
     return res.status(500).json({
       message: e,
     });
@@ -128,33 +127,27 @@ router.post("/shareWith", authReq, async (req: AuthRequest, res) => {
 router.get("/getShareFile/:id", authReq, async (req: AuthRequest, res) => {
   try {
     const fileId = req.params.id;
-    const fileData = await fileRepo.findOne({
+    const allpub = await fileRepo.find({
       where: {
-        id: fileId
+        mode: "public",
       },
-      relations: ["owner", "shareWith"]
+    });
+    const fileData = await fileRepo.find({
+      where: {
+        shareWith: {
+          id: fileId,
+        },
+      },
+      relations: ["owner", "shareWith"],
     });
     if (!fileData) return res.status(404).json({ message: "File not found" });
-    if (fileData.mode == "public") {
-      return res.json({
-        fileLink: fileData.fileUrl
-      });
-    };
-    if (fileData.shareWith.indexOf(req.userData) == -1) {
-      return res.status(402).json({
-        message: "this file not share with you (access error)"
-      })
-    }
-    return res.json({
-      fileLink: fileData.fileUrl
-    })
-  }
-  catch (e) {
+
+    return res.json([...new Set([...fileData, ...allpub])]);
+  } catch (e) {
     return res.status(500).json({
       message: e,
     });
   }
-
-})
+});
 
 export default router;

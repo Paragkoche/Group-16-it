@@ -13,7 +13,7 @@ import crypto from "crypto";
 
 @Entity()
 export class Files {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn("uuid")
   id: string;
 
   @Column()

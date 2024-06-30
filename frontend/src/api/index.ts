@@ -22,7 +22,7 @@ export const createUser = async (
 export const LoginUser = async (
   data: z.infer<typeof CreateAndLoginUserBody>
 ) => {
-  return api.post("/users/LoginUsers", data);
+  return api.post("/users/LoginUsers", JSON.stringify(data));
 };
 
 export const DeleteUsers = async () => {
@@ -34,21 +34,30 @@ export const DeleteUsers = async () => {
 };
 
 export const getAllFile = async () => {
-  return api.get("/file/all-file");
+  return api.get("/files/all-file");
 };
 
 export const shareFileWith = async (data: z.infer<typeof shareWithBody>) => {
-  return api.post("/file/shareWith", data);
+  return api.post("/files/shareWith", JSON.stringify(data));
 };
 
 export const getShareFile = async (id: string) => {
-  return api.get(`/getShareFile/${id}`);
+  return api.get(`/files/getShareFile/${id}`);
 };
 
 export const checkAuth = async () => {
   let _data = false;
   const { data } = await api.get("/users/ref-token");
   console.log(JSON.parse(data).id !== "");
-  _data = JSON.parse(data).id != "";
-  return _data;
+  _data = JSON.parse(data).id ? JSON.parse(data).id !== "" : false;
+  return [_data, _data ? JSON.parse(data) : ""];
+};
+
+export const getAllUsers = async () => {
+  const { data } = await api.get("/users/all-users");
+  return data;
+};
+
+export const logOut = async () => {
+  return await api.post("/users/log-out");
 };

@@ -7,6 +7,6 @@ export const CreateAndLoginUserBody = z.object({
 
 export const shareWithBody = z.object({
   mode: z.enum(["public", "onWith"]),
-  shareWithUserId: z.array(z.object({ id: z.string() })),
+  shareWithUserId: z.array(z.object({ id: z.string() })).default([]),
   fileId: z.string(),
 });

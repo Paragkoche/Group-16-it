@@ -22,7 +22,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CreateAndLoginUserBody } from "@/api/valid";
 import { setErrorMap, z } from "zod";
-import { createUser } from "@/api";
+import { LoginUser, createUser } from "@/api";
+import { useRouter } from "next/navigation";
 
 function ColorSchemeToggle(props: IconButtonProps) {
   const { onClick, ...other } = props;
@@ -56,6 +57,7 @@ const page = () => {
   const [open, setOpen] = React.useState(false);
   const [message, setMessage] = React.useState("");
   const [isError, setIsError] = React.useState(false);
+  const router = useRouter();
   return (
     <>
       <Box
@@ -122,7 +124,7 @@ const page = () => {
                 </Typography>
                 <Typography level="body-sm">
                   New Users?{" "}
-                  <Link href="#replace-with-a-link" level="title-sm">
+                  <Link href="/auth/register" level="title-sm">
                     Sign up!
                   </Link>
                 </Typography>
@@ -131,10 +133,11 @@ const page = () => {
             <Stack sx={{ gap: 4, mt: 2 }}>
               <form
                 onSubmit={handleSubmit((data) => {
-                  createUser(data).then(({ data, status }) => {
+                  LoginUser(data).then(({ data, status }) => {
                     if (status == 200) {
-                      setMessage("User created successfully");
+                      setMessage("User Login successfully");
                       setOpen(true);
+                      router.push("/dashboard");
                     } else {
                       setIsError(true);
                       setMessage("Error try agin");
