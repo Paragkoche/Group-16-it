@@ -194,6 +194,7 @@ const page = () => {
         })}
       />
       <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "left" }}
         open={open}
         color={isError ? "danger" : "neutral"}
         autoHideDuration={500}
