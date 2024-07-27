@@ -147,6 +147,18 @@ const page = () => {
                 })}
               >
                 <FormControl required>
+                  <FormLabel>First Name</FormLabel>
+                  <Input {...register("first_name")} />
+                </FormControl>
+                <FormControl required>
+                  <FormLabel>Last Name</FormLabel>
+                  <Input {...register("last_name")} />
+                </FormControl>
+                <FormControl required>
+                  <FormLabel>Username</FormLabel>
+                  <Input {...register("username")} />
+                </FormControl>
+                <FormControl required>
                   <FormLabel>Email</FormLabel>
                   <Input {...register("email")} />
                 </FormControl>

@@ -1,7 +1,10 @@
 import { fileRepo, userRepo } from "@/database/repo";
 import { createToken } from "@/helper/jwt";
 import { verifyPassword } from "@/helper/password";
-import { CreateAndLoginUserBody } from "@/helper/schema";
+import {
+  _CreateAndLoginUserBody,
+  CreateAndLoginUserBody,
+} from "@/helper/schema";
 import { AuthRequest, authReq } from "@/middleware/auth.middleware";
 import { deleteFolderRecursive } from "@/utl/file";
 import { Router } from "express";
@@ -27,7 +30,7 @@ router.post("/createUser", async (req, res) => {
 });
 router.post("/LoginUsers", async (req, res) => {
   try {
-    const data = CreateAndLoginUserBody.safeParse(req.body);
+    const data = _CreateAndLoginUserBody.safeParse(req.body);
     if (data.error) {
       return res.status(405).json(data.error.errors);
     }

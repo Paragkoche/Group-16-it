@@ -6,14 +6,16 @@ import {
   Button,
   CssBaseline,
   CssVarsProvider,
+  Drawer,
   Stack,
   StyledEngineProvider,
 } from "@mui/joy";
 import React from "react";
 import Header from "@/components/Header";
-import Navigation from "@/components/Nav";
+import Navigation, { _Navigation } from "@/components/Nav";
 const layout = ({ children }: { children: React.ReactNode }) => {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const [_drawerOpen, _setDrawerOpen] = React.useState(false);
   return (
     <AuthProvider>
       <html lang="en">
@@ -23,7 +25,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
               <CssBaseline />
               {drawerOpen && (
                 <SideDrawer onClose={() => setDrawerOpen(false)}>
-                  <Navigation />
+                  {/* <_Navigation /> */}
                 </SideDrawer>
               )}
               <Box
@@ -32,7 +34,9 @@ const layout = ({ children }: { children: React.ReactNode }) => {
                     display: "grid",
                     gridTemplateColumns: {
                       xs: "1fr",
-                      sm: "minmax(64px, 200px) minmax(450px, 1fr)",
+                      sm: `minmax(64px, ${
+                        !_drawerOpen ? 70 : 200
+                      }px) minmax(450px, 1fr)`,
                       // md: "minmax(160px, 300px) minmax(300px, 500px) minmax(500px, 1fr)",
                     },
                     gridTemplateRows: "64px 1fr",
@@ -41,7 +45,9 @@ const layout = ({ children }: { children: React.ReactNode }) => {
                   {
                     gridTemplateColumns: {
                       xs: "1fr",
-                      sm: "minmax(64px, 200px) minmax(450px, 1fr)",
+                      sm: `minmax(64px, ${
+                        !_drawerOpen ? 70 : 200
+                      }px) minmax(450px, 1fr)`,
                       // md: "minmax(160px, 300px) minmax(600px, 1fr) minmax(300px, 420px)",
                     },
                   },
@@ -87,10 +93,14 @@ const layout = ({ children }: { children: React.ReactNode }) => {
                         xs: "none",
                         sm: "initial",
                       },
+                      width: !_drawerOpen ? 70 : null,
                     },
                   ]}
                 >
-                  <Navigation />
+                  <Navigation
+                    onClick={() => _setDrawerOpen((s) => !s)}
+                    isOpen={_drawerOpen}
+                  />
                 </Box>
                 {children}
               </Box>

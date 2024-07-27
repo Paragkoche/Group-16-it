@@ -124,6 +124,53 @@ router.post("/shareWith", authReq, async (req: AuthRequest, res) => {
   }
 });
 
+router.delete(
+  "/removeShareWith/:id",
+  authReq,
+  async (req: AuthRequest, res) => {
+    try {
+      const file = await fileRepo.findOne({ where: { id: req.params.id } });
+      if (!file) {
+        return res.status(405).json({
+          message: "File not found",
+        });
+      }
+
+      // file.mode = file.id;
+
+      if (file.mode == "public") {
+        file.mode = "private";
+        let f = await fileRepo.save(file);
+        return res.json(f);
+      }
+      let usersArray: any[] = [];
+      // for (let v of data.data.shareWithUserId) {
+      //   const user = await userRepo.findOne({
+      //     where: {
+      //       id: v.id,
+      //     },
+      //   });
+      //   if (!user) {
+      //     return res.status(404).json({
+      //       message: "User not found id : " + v.id,
+      //     });
+      //   }
+      //   usersArray.push(user);
+      // }
+      file.shareWith = usersArray;
+      const updateFileData = await fileRepo.save(file);
+
+      return res.json({
+        data: updateFileData,
+      });
+    } catch (e) {
+      return res.status(500).json({
+        message: e,
+      });
+    }
+  }
+);
+
 router.get("/getShareFile/:id", authReq, async (req: AuthRequest, res) => {
   try {
     const fileId = req.params.id;

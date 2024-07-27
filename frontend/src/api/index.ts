@@ -1,6 +1,10 @@
 import { Axios } from "axios";
 import { z } from "zod";
-import { CreateAndLoginUserBody, shareWithBody } from "./valid";
+import {
+  _CreateAndLoginUserBody,
+  CreateAndLoginUserBody,
+  shareWithBody,
+} from "./valid";
 
 const BaseURL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -20,7 +24,7 @@ export const createUser = async (
 };
 
 export const LoginUser = async (
-  data: z.infer<typeof CreateAndLoginUserBody>
+  data: z.infer<typeof _CreateAndLoginUserBody>
 ) => {
   return api.post("/users/LoginUsers", JSON.stringify(data));
 };
@@ -60,4 +64,8 @@ export const getAllUsers = async () => {
 
 export const logOut = async () => {
   return await api.post("/users/log-out");
+};
+
+export const deleteShare = async (id: string) => {
+  return await api.delete(`/files/removeShareWith/${id}`);
 };

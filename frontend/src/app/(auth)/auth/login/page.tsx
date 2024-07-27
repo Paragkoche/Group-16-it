@@ -20,7 +20,7 @@ import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded";
 import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CreateAndLoginUserBody } from "@/api/valid";
+import { _CreateAndLoginUserBody, CreateAndLoginUserBody } from "@/api/valid";
 import { setErrorMap, z } from "zod";
 import { LoginUser, createUser } from "@/api";
 import { useRouter } from "next/navigation";
@@ -50,9 +50,9 @@ function ColorSchemeToggle(props: IconButtonProps) {
 }
 const page = () => {
   const { register, handleSubmit } = useForm<
-    z.infer<typeof CreateAndLoginUserBody>
+    z.infer<typeof _CreateAndLoginUserBody>
   >({
-    resolver: zodResolver(CreateAndLoginUserBody),
+    resolver: zodResolver(_CreateAndLoginUserBody),
   });
   const [open, setOpen] = React.useState(false);
   const [message, setMessage] = React.useState("");

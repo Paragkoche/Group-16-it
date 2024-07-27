@@ -32,6 +32,7 @@ import Navigation from "./Nav";
 import { useAuth } from "@/providers/auth.provider";
 import { logOut } from "@/api";
 import { useRouter } from "next/navigation";
+import { Divider } from "@mui/joy";
 
 function ColorSchemeToggle() {
   const { mode, setMode } = useColorScheme();
@@ -129,6 +130,8 @@ export default function Header() {
                 "--ListItem-radius": "var(--joy-radius-sm)",
               }}
             >
+              <MenuItem>@{user.username}</MenuItem>
+              <Divider />
               <MenuItem
                 onClick={async () => {
                   let da = await logOut();
