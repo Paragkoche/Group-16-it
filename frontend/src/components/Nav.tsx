@@ -24,13 +24,13 @@ export default function Navigation(props: {
     <List size="sm" sx={{ "--ListItem-radius": "8px", "--List-gap": "4px" }}>
       <ListItem nested>
         <ListItemButton sx={{ width: 35 }} onClick={props.onClick}>
-          {!props.isOpen ? <Menu /> : <Close />}
+          {/* {!props.isOpen ? <Menu /> : <Close />} */}
         </ListItemButton>
-        {!props.isOpen ?? (
+        {/* {!props.isOpen ?? (
           <ListSubheader sx={{ letterSpacing: "2px", fontWeight: "800" }}>
             Browse
           </ListSubheader>
-        )}
+        )} */}
         <List
           aria-labelledby="nav-list-browse"
           sx={{ "& .JoyListItemButton-root": { p: "8px" } }}
@@ -43,9 +43,9 @@ export default function Navigation(props: {
               <ListItemDecorator>
                 <FolderRoundedIcon fontSize="small" />
               </ListItemDecorator>
-              {props.isOpen ? (
-                <ListItemContent>My files</ListItemContent>
-              ) : null}
+              {/* {props.isOpen ? ( */}
+              <ListItemContent>My files</ListItemContent>
+              {/* ) : null} */}
             </ListItemButton>
           </ListItem>
           <ListItem>
@@ -56,9 +56,9 @@ export default function Navigation(props: {
               <ListItemDecorator>
                 <UploadFile fontSize="small" />
               </ListItemDecorator>
-              {props.isOpen ? (
-                <ListItemContent>Upload file</ListItemContent>
-              ) : null}
+              {/* {props.isOpen ? ( */}
+              <ListItemContent>Upload file</ListItemContent>
+              {/* ) : null} */}
             </ListItemButton>
           </ListItem>
           <ListItem>
@@ -69,9 +69,9 @@ export default function Navigation(props: {
               <ListItemDecorator>
                 <ShareRoundedIcon fontSize="small" />
               </ListItemDecorator>
-              {props.isOpen ? (
-                <ListItemContent>Shared files</ListItemContent>
-              ) : null}
+              {/* {props.isOpen ? ( */}
+              <ListItemContent>Shared files</ListItemContent>
+              {/* ) : null} */}
             </ListItemButton>
           </ListItem>
         </List>

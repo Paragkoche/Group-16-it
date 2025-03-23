@@ -15,7 +15,7 @@ import Header from "@/components/Header";
 import Navigation, { _Navigation } from "@/components/Nav";
 const layout = ({ children }: { children: React.ReactNode }) => {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
-  const [_drawerOpen, _setDrawerOpen] = React.useState(false);
+  const [_drawerOpen, _setDrawerOpen] = React.useState(true);
   return (
     <AuthProvider>
       <html lang="en">
@@ -98,7 +98,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
                   ]}
                 >
                   <Navigation
-                    onClick={() => _setDrawerOpen((s) => !s)}
+                    onClick={() => _setDrawerOpen(true)}
                     isOpen={_drawerOpen}
                   />
                 </Box>

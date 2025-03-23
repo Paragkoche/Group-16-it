@@ -21,7 +21,7 @@ body {
     no-repeat 0 0;
   background-size: cover;
   content: "";
-  height: 44%;
+  height: 26%;
   left: 0;
   position: absolute;
   width: 100%;
@@ -320,6 +320,7 @@ ul.menu li a:hover {
 .main {
   padding: 4.6875rem 0 0;
   width: 100%;
+  height: fit-content;
 }
 
 @media (max-width: 768px) {
